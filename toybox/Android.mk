@@ -127,6 +127,7 @@ LOCAL_SRC_FILES := \
     toys/other/vmstat.c \
     toys/other/which.c \
     toys/other/yes.c \
+    toys/pending/awk.c \
     toys/pending/dd.c \
     toys/pending/expr.c \
     toys/pending/more.c \
