@@ -409,6 +409,8 @@ else
     endif
     ifneq ($(wildcard external/unzip/Android.mk),)
         LOCAL_ADDITIONAL_DEPENDENCIES += unzip
+    else
+        LOCAL_ADDITIONAL_DEPENDENCIES += unzip_recovery
     endif
 endif
 
@@ -788,7 +790,8 @@ include $(commands_recovery_local_path)/injecttwrp/Android.mk \
     $(commands_recovery_local_path)/adbbu/Android.mk \
     $(commands_recovery_local_path)/libpixelflinger/Android.mk \
     $(commands_recovery_local_path)/twrpDigest/Android.mk \
-    $(commands_recovery_local_path)/attr/Android.mk
+    $(commands_recovery_local_path)/attr/Android.mk \
+    $(commands_recovery_local_path)/unzip/Android.mk
 
 ifeq ($(shell test $(PLATFORM_SDK_VERSION) -lt 24; echo $$?),0)
     include $(commands_recovery_local_path)/libmincrypt/Android.mk
