@@ -212,6 +212,54 @@ Value* SubstringFn(const char* name, State* state,
     return StringValue(result);
 }
 
+Value* StartsWithFn(const char* name, State* state,
+                   const std::vector<std::unique_ptr<Expr>>& argv) {
+    std::string needle;
+
+    if (argv.size() != 2) {
+        state->errmsg = "ends_width expects 2 arguments";
+        return nullptr;
+    }
+
+    if (!Evaluate(state, argv[0], &needle)) {
+        return nullptr;
+    }
+
+    std::string haystack;
+    if (!Evaluate(state, argv[1], &haystack)) {
+        return nullptr;
+    }
+
+    std::string result = ((needle.size() <= haystack.size()) &&
+        (haystack.find(needle) == 0)) ? "t" : "";
+
+    return StringValue(result);
+}
+
+Value* EndsWithFn(const char* name, State* state,
+                   const std::vector<std::unique_ptr<Expr>>& argv) {
+    std::string needle;
+
+    if (argv.size() != 2) {
+        state->errmsg = "ends_width expects 2 arguments";
+        return nullptr;
+    }
+
+    if (!Evaluate(state, argv[0], &needle)) {
+        return nullptr;
+    }
+
+    std::string haystack;
+    if (!Evaluate(state, argv[1], &haystack)) {
+        return nullptr;
+    }
+
+    std::string result = ((needle.size() <= haystack.size()) &&
+        std::equal(needle.rbegin(), needle.rend(), haystack.rbegin())) ? "t" : "";
+
+    return StringValue(result);
+}
+
 Value* EqualityFn(const char* name, State* state, const std::vector<std::unique_ptr<Expr>>& argv) {
     std::string left;
     if (!Evaluate(state, argv[0], &left)) {
@@ -333,6 +381,8 @@ void RegisterBuiltins() {
     RegisterFunction("assert", AssertFn);
     RegisterFunction("concat", ConcatFn);
     RegisterFunction("is_substring", SubstringFn);
+    RegisterFunction("starts_with", StartsWithFn);
+    RegisterFunction("ends_with", EndsWithFn);
     RegisterFunction("stdout", StdoutFn);
     RegisterFunction("sleep", SleepFn);
 
